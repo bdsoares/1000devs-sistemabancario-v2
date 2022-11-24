@@ -38,19 +38,10 @@ public class ClientePfDAO {
         return false;
     }
 
-    /*public boolean removeCliente(String conta) {
-        String sql = "DELETE FROM clientespf WHERE conta = ?";
+    public boolean removeCliente(String conta) {
+        ClienteDAO clienteDAO = new ClienteDAO();
+        String sql = "DELETE FROM cliente_pf WHERE conta = ?";
 
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, conta);
-            stmt.execute();
-
-            return true;
-        } catch (Exception ex) {
-            System.out.println("Erro ao realizar remoção!");
-            System.out.println(ex.getMessage());
-        }
-
-        return false;
-    }*/
+        return clienteDAO.removeCliente(sql, conta);
+    }
 }

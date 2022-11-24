@@ -1,5 +1,6 @@
 package br.com.mesttra.cidades.controller;
 
+import br.com.mesttra.cidades.dao.ClienteDAO;
 import br.com.mesttra.cidades.dao.ClientePfDAO;
 import br.com.mesttra.cidades.dao.ClientePjDAO;
 import br.com.mesttra.cidades.pojo.ClientePfPOJO;
@@ -11,9 +12,17 @@ public class Gerente {
 
     ClientePfDAO clientePfDAO = new ClientePfDAO();
     ClientePjDAO clientePjDAO = new ClientePjDAO();
+    ClienteDAO clienteDAO = new ClienteDAO();
+
     public void cadastraCliente(Scanner in, int tipoCliente) {
         System.out.print("Número da conta: ");
         String conta = in.nextLine();
+
+        if (clienteDAO.verificaContaExistente(conta) || clienteDAO.verificaContaExistente(conta) == null) {
+            System.out.println("Número de conta já cadastrado, tente novamente!");
+            return;
+        }
+
         System.out.print("Agência: ");
         String agencia = in.nextLine();
         System.out.print("Telefone: ");
@@ -54,6 +63,13 @@ public class Gerente {
         System.out.print("Informe o número da conta: ");
         String conta = in.nextLine();
 
+        Integer tipoConta = clienteDAO.buscaTipoConta(conta);
 
+        if (tipoConta == 1 && clientePfDAO.removeCliente(conta))         // Pessoa Fisica.
+            System.out.println("Conta PF Removida com Sucesso!");
+        else if (tipoConta == 2 && clientePjDAO.removeCliente(conta))    // Pessoa Juridica.
+            System.out.println("Conta PJ Removida com Sucesso!");
+        else
+            System.out.println("Conta não encontrada!");
     }
 }

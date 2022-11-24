@@ -37,4 +37,11 @@ public class ClientePjDAO {
 
         return false;
     }
+
+    public boolean removeCliente(String conta) {
+        ClienteDAO clienteDAO = new ClienteDAO();
+        String sql = "DELETE FROM cliente_pj WHERE conta = ?";
+
+        return clienteDAO.removeCliente(sql, conta);
+    }
 }
