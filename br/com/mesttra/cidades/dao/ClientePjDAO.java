@@ -1,24 +1,20 @@
 package br.com.mesttra.cidades.dao;
 
-import br.com.mesttra.cidades.connectionfactory.ConnectionFactory;
 import br.com.mesttra.cidades.pojo.ClientePjPOJO;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 
-public class ClientePjDAO {
-    private final Connection conn;
+public class ClientePjDAO extends ClienteDAO {
+    private final ClienteDAO clienteDAO = new ClienteDAO();
 
-    public ClientePjDAO() {
-        this.conn = new ConnectionFactory().getConnection();
-    }
+    public ClientePjDAO() { }
 
     public boolean cadastraCliente(ClientePjPOJO cliente) {
         String sql = "INSERT INTO public.cliente_pj(" +
                 "conta, agencia, telefone, saldo, limite, cnpj, razao_social, nome_fantasia)" +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (PreparedStatement stmt = super.getConn().prepareStatement(sql)) {
             stmt.setString(1, cliente.getConta());
             stmt.setString(2, cliente.getAgencia());
             stmt.setString(3, cliente.getTelefone());
@@ -39,9 +35,20 @@ public class ClientePjDAO {
     }
 
     public boolean removeCliente(String conta) {
-        ClienteDAO clienteDAO = new ClienteDAO();
         String sql = "DELETE FROM cliente_pj WHERE conta = ?";
 
         return clienteDAO.removeCliente(sql, conta);
+    }
+
+    public boolean ajustaLimite(String conta, double novoLimite) {
+        String sql = "UPDATE cliente_pj SET limite = ? WHERE conta = ?";
+
+        return clienteDAO.executaUpdate(sql, conta, novoLimite);
+    }
+
+    public boolean adicionaSaldo(String conta, double valor) {
+        String sql = "UPDATE cliente_pj SET saldo = saldo + ? WHERE conta = ?";
+
+        return clienteDAO.executaUpdate(sql, conta, valor);
     }
 }

@@ -18,7 +18,7 @@ public class Gerente {
         System.out.print("Número da conta: ");
         String conta = in.nextLine();
 
-        if (clienteDAO.verificaContaExistente(conta) || clienteDAO.verificaContaExistente(conta) == null) {
+        if (clienteDAO.verificaCliente(conta) != null) {
             System.out.println("Número de conta já cadastrado, tente novamente!");
             return;
         }
@@ -60,16 +60,49 @@ public class Gerente {
     }
 
     public void removeCliente(Scanner in) {
-        System.out.print("Informe o número da conta: ");
-        String conta = in.nextLine();
+        String conta = solicitaConta(in);
+        String tipoConta = clienteDAO.verificaCliente(conta);
 
-        Integer tipoConta = clienteDAO.buscaTipoConta(conta);
-
-        if (tipoConta == 1 && clientePfDAO.removeCliente(conta))         // Pessoa Fisica.
+        if (tipoConta.equals("PF") && clientePfDAO.removeCliente(conta))         // Pessoa Fisica.
             System.out.println("Conta PF Removida com Sucesso!");
-        else if (tipoConta == 2 && clientePjDAO.removeCliente(conta))    // Pessoa Juridica.
+        else if (tipoConta.equals("PJ") && clientePjDAO.removeCliente(conta))    // Pessoa Juridica.
             System.out.println("Conta PJ Removida com Sucesso!");
         else
             System.out.println("Conta não encontrada!");
+    }
+
+    public void ajustaLimite(Scanner in) {
+        String conta = solicitaConta(in);
+        String tipoConta = clienteDAO.verificaCliente(conta);
+
+        System.out.print("Informe o novo limite: R$");
+        double novoLimite = Double.parseDouble(in.nextLine());
+
+        if (tipoConta.equals("PF") && clientePfDAO.ajustaLimite(conta, novoLimite))         // Pessoa Fisica.
+            System.out.println("Limite Conta PF Ajustado com Sucesso!");
+        else if (tipoConta.equals("PJ") && clientePjDAO.ajustaLimite(conta, novoLimite))    // Pessoa Juridica.
+            System.out.println("Limite Conta PJ Ajustado com Sucesso!");
+        else
+            System.out.println("Conta não encontrada!");
+    }
+
+    public void adicionaSaldo(Scanner in) {
+        String conta = solicitaConta(in);
+        String tipoConta = clienteDAO.verificaCliente(conta);
+
+        System.out.print("Informe o valor a ser adicionado: R$");
+        double valor = Double.parseDouble(in.nextLine());
+
+        if (tipoConta.equals("PF") && clientePfDAO.adicionaSaldo(conta, valor))         // Pessoa Fisica.
+            System.out.println("Saldo Adicionado à Conta PF com Sucesso!");
+        else if (tipoConta.equals("PJ") && clientePjDAO.adicionaSaldo(conta, valor))    // Pessoa Juridica.
+            System.out.println("Saldo Adicionado à Conta PJ com Sucesso!");
+        else
+            System.out.println("Conta não encontrada!");
+    }
+
+    private String solicitaConta(Scanner in) {
+        System.out.print("Informe o número da conta: ");
+        return in.nextLine();
     }
 }

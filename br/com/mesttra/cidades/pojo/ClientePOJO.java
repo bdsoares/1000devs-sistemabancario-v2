@@ -1,6 +1,6 @@
 package br.com.mesttra.cidades.pojo;
 
-public abstract class ClientePOJO {
+public abstract class ClientePOJO implements Conta {
     private final String conta;
     private final String agencia;
     private final String telefone;
@@ -17,6 +17,7 @@ public abstract class ClientePOJO {
         this.contaAtiva = contaAtiva;
     }
 
+    @Override
     public void exibirConta() {
         System.out.println("Conta: " + getConta());
         System.out.println("Agencia: " + getAgencia());

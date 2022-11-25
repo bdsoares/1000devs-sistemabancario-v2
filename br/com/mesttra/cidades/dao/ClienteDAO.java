@@ -1,6 +1,7 @@
 package br.com.mesttra.cidades.dao;
 
 import br.com.mesttra.cidades.connectionfactory.ConnectionFactory;
+import br.com.mesttra.cidades.exceptions.ContaNaoEncontradaException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,6 +12,10 @@ public class ClienteDAO {
 
     public ClienteDAO() {
         this.conn = new ConnectionFactory().getConnection();
+    }
+
+    public Connection getConn() {
+        return conn;
     }
 
     public boolean removeCliente(String sql, String conta) {
@@ -27,7 +32,7 @@ public class ClienteDAO {
         return false;
     }
 
-    public Boolean verificaContaExistente(String conta) {
+    public String verificaCliente(String conta) {
         String sqlPf = "SELECT COUNT(*) FROM cliente_pf " +
                 "WHERE CONTA = ?";
         String sqlPj = "SELECT COUNT(*) FROM cliente_pj " +
@@ -35,24 +40,26 @@ public class ClienteDAO {
 
         Boolean rs = executaQuery(conta, sqlPf);
         Boolean rs2 = executaQuery(conta, sqlPj);
-        if (rs != null && rs2 != null) return rs || rs2;
 
-        return null;
+        if (rs != null && rs) return "PF";
+        if (rs2 != null && rs2) return "PJ";
+
+        throw new ContaNaoEncontradaException("Conta não encontrada!");
     }
 
-    public Integer buscaTipoConta(String conta) {
-        String sqlPf = "SELECT COUNT(*) FROM cliente_pf " +
-                "WHERE CONTA = ?";
-        String sqlPj = "SELECT COUNT(*) FROM cliente_pj " +
-                "WHERE CONTA = ?";
+    public boolean executaUpdate(String sql, String conta, double valor) {
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setDouble(1, valor);
+            stmt.setString(2, conta);
 
-        Boolean rs = executaQuery(conta, sqlPf);
-        Boolean rs2 = executaQuery(conta, sqlPj);
+            stmt.execute();
+            return true;
+        } catch (Exception ex) {
+            System.out.println("Erro ao processar solicitação!");
+            System.out.println(ex.getMessage());
+        }
 
-        if (rs != null && rs) return 1;    // Pessoa Fisica
-        if (rs2 != null && rs2) return 2;  // Pessoa Juridica
-
-        return null;    // Conta não encontrada.
+        return false;
     }
 
     private Boolean executaQuery(String conta, String sql) {
