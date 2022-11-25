@@ -56,7 +56,7 @@ Imprimir um relatório com todos os seus clientes (em tela);
 
 - [@bdsoares](https://www.github.com/bdsoares) Bruno Daniel Soares dos Santos
 - [@igorferreira007](https://www.github.com/igorferreira007) Igor Ferreira
-- [](https://www.github.com/) Neto Santos
+- [@santosnetto](https://www.github.com/santosnetto) Neto Santos
 - [@LucasSSoares32](https://www.github.com/LucasSSoares32) Lucas Soares
 - [@eduardocf2003](https://www.github.com/eduardocf2003) Eduardo Floriano
 - [@amanda-sgl](https://www.github.com/amanda-sgl) Amanda S G Lacerda
