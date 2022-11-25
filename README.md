@@ -5,6 +5,7 @@ A proposta do projeto é refatorar o sistema desenvolvido na atividade anterior 
 
 Exemplo da atividade anterior disponível em:
 https://github.com/bdsoares/1000devs-sistema-bancario
+
 ## Sobre
 
 Modele um sistema bancário, através do qual o gerente vai ser capaz de gerenciar os seus clientes.
@@ -30,6 +31,7 @@ Fazer transferências entre seus clientes (somente se o cliente que transfere ti
 Adicionar saldo a um cliente (somente valores positivos) (ler todas as informações do teclado);
 
 Imprimir um relatório com todos os seus clientes (em tela);
+
 ## Requisitos
 
 - Utilize o mesmo esquema de classes da atividade anterior;
@@ -49,7 +51,16 @@ Imprimir um relatório com todos os seus clientes (em tela);
 - O banco de dados utilizado deverá ser o POSTGRES;
 
 - O grupo deve usar as ferramentas discutidas em sala até o dia 23/11;
+
 ## Equipe
 
 - [@bdsoares](https://www.github.com/bdsoares) Bruno Daniel Soares dos Santos
+- [@igorferreira007](https://www.github.com/igorferreira007) Igor Ferreira
+- [](https://www.github.com/) Neto Santos
+- [@LucasSSoares32](https://www.github.com/LucasSSoares32) Lucas Soares
+- [@eduardocf2003](https://www.github.com/eduardocf2003) Eduardo Floriano
+- [@amanda-sgl](https://www.github.com/amanda-sgl) Amanda S G Lacerda
+- [@angelica-lima](https://www.github.com/angelica-lima) Angelica Lima
+- [@TwFelps](https://www.github.com/TwFelps) Felipe Lopes
+
 
