@@ -52,6 +52,24 @@ Imprimir um relatório com todos os seus clientes (em tela);
 
 - O grupo deve usar as ferramentas discutidas em sala até o dia 23/11;
 
+## Variáveis de Ambiente
+
+Para executar este projeto, você precisará adicionar as seguintes variáveis ​​de ambiente ao seu arquivo .env
+
+`POSTGRES_USER`
+
+`POSTGRES_PASS`
+
+Necessário editar as configurações de conexão no arquivo connectionfactory/ConnectionFactory.java
+
+## JDBC Driver
+
+Necessário importar o JDBC Driver do PostgreSQL no projeto.
+
+[Download | pgJDBC](https://jdbc.postgresql.org/download/)
+
+Utilizada versão [`42.5.0`](https://jdbc.postgresql.org/download/postgresql-42.5.0.jar)
+
 ## Equipe
 
 - [@bdsoares](https://www.github.com/bdsoares) Bruno Daniel Soares dos Santos
