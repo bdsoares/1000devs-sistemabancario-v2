@@ -92,16 +92,19 @@ public class ClienteDAO {
        }
     }
 
-    public boolean transfereValor(String contaOrigem, String contaDestino, double valor) {
-        String contaTipo = verificaCliente(contaOrigem);
-        if (contaTipo.equals("PF")) {
-            ClientePfDAO clientePfDAO = new ClientePfDAO();
-            return clientePfDAO.transfereValor(contaOrigem, contaDestino, valor);
-        } else if (contaTipo.equals("PJ")) {
-            ClientePjDAO clientePjDAO = new ClientePjDAO();
-            return clientePjDAO.transfereValor(contaOrigem, contaDestino, valor);
-        } else {
-            throw new ContaNaoEncontradaException("Conta não encontrada!");
+    public double consultaSaldoLimite (String sql, String conta, String campo) {
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, conta);
+            System.out.println(stmt);
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            return rs.getDouble(campo);
+
+        } catch (Exception ex) {
+            System.out.println("Erro ao processar solicitação!");
+            System.out.println(ex.getMessage());
         }
+        return 0;
     }
+
 }

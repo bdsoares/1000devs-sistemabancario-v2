@@ -26,7 +26,7 @@ public class SistemaBancario {
                     case 2 -> gerente.removeCliente(in);
                     case 3 -> gerente.consultaCliente(in);
                     case 4 -> gerente.ajustaLimite(in);
-                    //case 5 -> gerente.tranfere(in);
+                    case 5 -> gerente.transfere(in);
                     case 6 -> gerente.adicionaSaldo(in);
                     /*case 7 -> gerente.relatorioClientes(true);*/
                     case 9 -> System.out.println("Obrigado por utilizar o sistema, até logo!");

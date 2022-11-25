@@ -77,4 +77,33 @@ public class ClientePjDAO extends ClienteDAO {
         }
         return null;
     }
+
+    public double ConsultaTransferencia (String conta) {
+
+        String sql = "SELECT * FROM cliente_pj WHERE conta = ?";
+        String sql2 = "SELECT * FROM cliente_pj WHERE conta = ?";
+
+        double saldo = clienteDAO.consultaSaldoLimite(sql, conta, "saldo");
+        double limite = clienteDAO.consultaSaldoLimite(sql2, conta, "limite");
+
+        double saldoTotal = saldo + limite;
+
+        return saldoTotal;
+
+
+    }
+
+    public boolean transfere (String contaOrigem, double valor) {
+        String sql = "UPDATE cliente_pj SET saldo = saldo - ? WHERE conta = ?";
+
+
+        return clienteDAO.executaUpdate(sql, contaOrigem, valor);
+    }
+
+    public boolean recebe (String contaDestino, double valor) {
+        String sql = "UPDATE cliente_pj SET saldo = saldo + ? WHERE conta = ?";
+
+
+        return clienteDAO.executaUpdate(sql, contaDestino, valor);
+    }
 }
