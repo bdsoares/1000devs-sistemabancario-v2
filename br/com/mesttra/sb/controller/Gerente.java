@@ -1,12 +1,12 @@
-package br.com.mesttra.cidades.controller;
+package br.com.mesttra.sb.controller;
 
-import br.com.mesttra.cidades.dao.ClienteDAO;
-import br.com.mesttra.cidades.dao.ClientePfDAO;
-import br.com.mesttra.cidades.dao.ClientePjDAO;
-import br.com.mesttra.cidades.exceptions.ContaNaoEncontradaException;
-import br.com.mesttra.cidades.pojo.ClientePOJO;
-import br.com.mesttra.cidades.pojo.ClientePfPOJO;
-import br.com.mesttra.cidades.pojo.ClientePjPOJO;
+import br.com.mesttra.sb.dao.ClienteDAO;
+import br.com.mesttra.sb.dao.ClientePfDAO;
+import br.com.mesttra.sb.dao.ClientePjDAO;
+import br.com.mesttra.sb.exceptions.ContaNaoEncontradaException;
+import br.com.mesttra.sb.pojo.ClientePOJO;
+import br.com.mesttra.sb.pojo.ClientePfPOJO;
+import br.com.mesttra.sb.pojo.ClientePjPOJO;
 
 import java.util.Scanner;
 
@@ -103,24 +103,16 @@ public class Gerente {
             System.out.println("Conta não encontrada!");
     }
 
-    private String solicitaConta(Scanner in) {
-        System.out.print("Informe o número da conta: ");
-        return in.nextLine();
-    }
-
     public void consultaCliente(Scanner in) {
         String conta = solicitaConta(in);
 
         ClientePOJO cliente = clienteDAO.consultaCliente(conta);
         cliente.exibirConta();
-
     }
 
     public void transfere (Scanner in) {
-
         ClientePfDAO clientePfDAO = new ClientePfDAO();
         ClientePjDAO clientePjDAO = new ClientePjDAO();
-
 
         System.out.print("Origem - ");
         String contaOrigem = solicitaConta(in);
@@ -133,10 +125,11 @@ public class Gerente {
         if (tipoContaDestino != null && tipoContaOrigem != null) {
                 System.out.print("Valor a ser transferido: R$");
                 double valor = Double.parseDouble(in.nextLine());
+
                 if (tipoContaOrigem.equals("PF")) {
-                    double valorFinal = clientePfDAO.ConsultaTransferencia(contaOrigem);
-                    if (valorFinal >= valor) {
+                    if (clientePfDAO.consultaTransferencia(contaOrigem) >= valor) {
                         clientePfDAO.transfere(contaOrigem, valor);
+
                         if (tipoContaDestino.equals("PJ")) {
                             clientePjDAO.recebe(contaDestino, valor);
                             System.out.println("Transferência realizada com sucesso!");
@@ -148,9 +141,9 @@ public class Gerente {
                         System.out.println("Saldo insuficiente!");
                     }
                 } else {
-                    double valorFinal = clientePjDAO.ConsultaTransferencia(contaOrigem);
-                    if (valorFinal >= valor) {
+                    if (clientePjDAO.consultaTransferencia(contaOrigem) >= valor) {
                         clientePjDAO.transfere(contaOrigem, valor);
+
                         if (tipoContaDestino.equals("PJ")) {
                             clientePjDAO.recebe(contaDestino, valor);
                             System.out.println("Transferência realizada com sucesso!");
@@ -161,18 +154,14 @@ public class Gerente {
                     } else {
                         System.out.println("Saldo insuficiente!");
                     }
-
                 }
-
-
         } else {
             throw new ContaNaoEncontradaException("Conta não encontrada!");
         }
     }
 
-    private static void clearBuffer(Scanner scanner) {
-        if (scanner.hasNextLine()) {
-            scanner.nextLine();
-        }
+    private String solicitaConta(Scanner in) {
+        System.out.print("Informe o número da conta: ");
+        return in.nextLine();
     }
 }

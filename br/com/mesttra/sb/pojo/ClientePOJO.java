@@ -1,11 +1,11 @@
-package br.com.mesttra.cidades.pojo;
+package br.com.mesttra.sb.pojo;
 
 public class ClientePOJO implements Conta {
     private final String conta;
     private final String agencia;
     private final String telefone;
-    private double saldo;
-    private double limite;
+    private final double saldo;
+    private final double limite;
 
     public ClientePOJO(String conta, String agencia, String telefone, double saldo, double limite) {
         this.conta = conta;
@@ -40,17 +40,7 @@ public class ClientePOJO implements Conta {
         return saldo;
     }
 
-    public void setSaldo(double saldo) {
-        this.saldo = saldo;
-    }
-
     public double getLimite() {
         return limite;
     }
-
-    public void setLimite(double limite) {
-        this.limite = limite;
-    }
-
-
 }

@@ -1,7 +1,6 @@
-package br.com.mesttra.cidades.dao;
+package br.com.mesttra.sb.dao;
 
-import br.com.mesttra.cidades.pojo.ClientePOJO;
-import br.com.mesttra.cidades.pojo.ClientePfPOJO;
+import br.com.mesttra.sb.pojo.ClientePfPOJO;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -54,8 +53,7 @@ public class ClientePfDAO extends ClienteDAO {
         return clienteDAO.executaUpdate(sql, conta, valor);
     }
 
-    public ClientePfPOJO consultaCliente (String conta) {
-
+    public ClientePfPOJO consultaCliente(String conta) {
         String sql = "SELECT * FROM cliente_pf WHERE conta = ?";
         try (PreparedStatement stmt = clienteDAO.getConn().prepareStatement(sql)) {
             stmt.setString(1, conta);
@@ -79,35 +77,25 @@ public class ClientePfDAO extends ClienteDAO {
         return null;
     }
 
-    public double ConsultaTransferencia (String conta) {
+    public double consultaTransferencia(String conta) {
+        String sqlSaldo = "SELECT saldo FROM cliente_pf WHERE conta = ?";
+        String sqlLimite = "SELECT limite FROM cliente_pf WHERE conta = ?";
 
-        String sql = "SELECT * FROM cliente_pf WHERE conta = ?";
-        String sql2 = "SELECT * FROM cliente_pf WHERE conta = ?";
+        double saldo = clienteDAO.consultaSaldoLimite(sqlSaldo, conta, "saldo");
+        double limite = clienteDAO.consultaSaldoLimite(sqlLimite, conta, "limite");
 
-        double saldo = clienteDAO.consultaSaldoLimite(sql, conta, "saldo");
-        double limite = clienteDAO.consultaSaldoLimite(sql2, conta, "limite");
-
-        double saldoTotal = saldo + limite;
-
-        return saldoTotal;
-
-
+        return saldo + limite;
     }
 
-    public boolean transfere (String contaOrigem, double valor) {
+    public boolean transfere(String contaOrigem, double valor) {
         String sql = "UPDATE cliente_pf SET saldo = saldo - ? WHERE conta = ?";
-
 
         return clienteDAO.executaUpdate(sql, contaOrigem, valor);
     }
 
-    public boolean recebe (String contaDestino, double valor) {
+    public boolean recebe(String contaDestino, double valor) {
         String sql = "UPDATE cliente_pf SET saldo = saldo + ? WHERE conta = ?";
-
 
         return clienteDAO.executaUpdate(sql, contaDestino, valor);
     }
-
-
-
 }

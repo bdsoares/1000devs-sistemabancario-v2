@@ -1,4 +1,4 @@
-package br.com.mesttra.cidades.pojo;
+package br.com.mesttra.sb.pojo;
 
 public class ClientePfPOJO extends ClientePOJO {
     private final String cpf;

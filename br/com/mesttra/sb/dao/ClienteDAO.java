@@ -1,8 +1,8 @@
-package br.com.mesttra.cidades.dao;
+package br.com.mesttra.sb.dao;
 
-import br.com.mesttra.cidades.connectionfactory.ConnectionFactory;
-import br.com.mesttra.cidades.exceptions.ContaNaoEncontradaException;
-import br.com.mesttra.cidades.pojo.ClientePOJO;
+import br.com.mesttra.sb.connectionfactory.ConnectionFactory;
+import br.com.mesttra.sb.exceptions.ContaNaoEncontradaException;
+import br.com.mesttra.sb.pojo.ClientePOJO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -81,12 +81,10 @@ public class ClienteDAO {
        String contaTipo = verificaCliente(conta);
        if (contaTipo.equals("PF")) {
            ClientePfDAO clientePfDAO = new ClientePfDAO();
-           ClientePOJO cliente = clientePfDAO.consultaCliente(conta);
-           return cliente;
+           return clientePfDAO.consultaCliente(conta);
        } else if (contaTipo.equals("PJ")) {
            ClientePjDAO clientePjDAO = new ClientePjDAO();
-           ClientePOJO cliente = clientePjDAO.consultaCliente(conta);
-           return cliente;
+           return clientePjDAO.consultaCliente(conta);
        } else {
            throw new ContaNaoEncontradaException("Conta não encontrada!");
        }
@@ -95,11 +93,10 @@ public class ClienteDAO {
     public double consultaSaldoLimite (String sql, String conta, String campo) {
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, conta);
-            System.out.println(stmt);
+
             ResultSet rs = stmt.executeQuery();
             rs.next();
             return rs.getDouble(campo);
-
         } catch (Exception ex) {
             System.out.println("Erro ao processar solicitação!");
             System.out.println(ex.getMessage());

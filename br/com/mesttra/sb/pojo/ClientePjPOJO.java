@@ -1,4 +1,4 @@
-package br.com.mesttra.cidades.pojo;
+package br.com.mesttra.sb.pojo;
 
 public class ClientePjPOJO extends ClientePOJO {
     private final String cnpj;
@@ -30,6 +30,4 @@ public class ClientePjPOJO extends ClientePOJO {
     public String getNomeFantasia() {
         return nomeFantasia;
     }
-
-
 }

@@ -1,4 +1,4 @@
-package br.com.mesttra.cidades.controller;
+package br.com.mesttra.sb.controller;
 
 import java.util.Scanner;
 
@@ -60,17 +60,6 @@ public class SistemaBancario {
         System.out.println("1. Pessoa Física");
         System.out.println("2. Pessoa Jurídica");
         System.out.println("3. Cancelar");
-        System.out.println("# ============================ #");
-        System.out.print("Insira uma opção: ");
-        return Integer.parseInt(in.nextLine());
-    }
-
-    private static int mostraMenuRemovidos(Scanner in) {
-        System.out.println("# ===== Contas Removidas ===== #");
-        System.out.println("1. Relatório de contas removidas");
-        System.out.println("2. Consultar conta removida");
-        System.out.println("3. Restaurar conta");
-        System.out.println("4. Voltar");
         System.out.println("# ============================ #");
         System.out.print("Insira uma opção: ");
         return Integer.parseInt(in.nextLine());
