@@ -78,19 +78,21 @@ public class ClienteDAO {
     }
 
     public ClientePOJO consultaCliente(String conta) {
-       String contaTipo = verificaCliente(conta);
-       if (contaTipo.equals("PF")) {
-           ClientePfDAO clientePfDAO = new ClientePfDAO();
-           return clientePfDAO.consultaCliente(conta);
-       } else if (contaTipo.equals("PJ")) {
-           ClientePjDAO clientePjDAO = new ClientePjDAO();
-           return clientePjDAO.consultaCliente(conta);
-       } else {
-           throw new ContaNaoEncontradaException("Conta não encontrada!");
-       }
+        String contaTipo = verificaCliente(conta);
+
+        if (contaTipo == null) {
+            throw new ContaNaoEncontradaException("Conta não encontrada!");
+        } else if (contaTipo.equals("PF")) {
+            ClientePfDAO clientePfDAO = new ClientePfDAO();
+            return clientePfDAO.consultaCliente(conta);
+        } else if (contaTipo.equals("PJ")) {
+            ClientePjDAO clientePjDAO = new ClientePjDAO();
+            return clientePjDAO.consultaCliente(conta);
+        }
+        return null;
     }
 
-    public double consultaSaldoLimite (String sql, String conta, String campo) {
+    public double consultaSaldoLimite(String sql, String conta, String campo) {
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, conta);
 

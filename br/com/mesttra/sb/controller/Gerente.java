@@ -44,7 +44,7 @@ public class Gerente {
 
             ClientePfPOJO novoCliente = new ClientePfPOJO(conta, agencia, telefone, saldo, limite, cpf, nome, idade);
 
-            if(clientePfDAO.cadastraCliente(novoCliente))
+            if (clientePfDAO.cadastraCliente(novoCliente))
                 System.out.println("Cliente cadastrado com sucesso!");
         } else {
             System.out.print("CNPJ: ");
@@ -56,7 +56,7 @@ public class Gerente {
 
             ClientePjPOJO novoCliente = new ClientePjPOJO(conta, agencia, telefone, saldo, limite, cnpj, razaoSocial, nomeFantasia);
 
-            if(clientePjDAO.cadastraCliente(novoCliente))
+            if (clientePjDAO.cadastraCliente(novoCliente))
                 System.out.println("Cliente cadastrado com sucesso!");
         }
     }
@@ -110,51 +110,51 @@ public class Gerente {
         cliente.exibirConta();
     }
 
-    public void transfere (Scanner in) {
+    public void transfere(Scanner in) {
         ClientePfDAO clientePfDAO = new ClientePfDAO();
         ClientePjDAO clientePjDAO = new ClientePjDAO();
 
         System.out.print("Origem - ");
         String contaOrigem = solicitaConta(in);
-    	String tipoContaOrigem = clienteDAO.verificaCliente(contaOrigem);
+        String tipoContaOrigem = clienteDAO.verificaCliente(contaOrigem);
 
         System.out.print("Destino - ");
         String contaDestino = solicitaConta(in);
         String tipoContaDestino = clienteDAO.verificaCliente(contaDestino);
 
         if (tipoContaDestino != null && tipoContaOrigem != null) {
-                System.out.print("Valor a ser transferido: R$");
-                double valor = Double.parseDouble(in.nextLine());
+            System.out.print("Valor a ser transferido: R$");
+            double valor = Double.parseDouble(in.nextLine());
 
-                if (tipoContaOrigem.equals("PF")) {
-                    if (clientePfDAO.consultaTransferencia(contaOrigem) >= valor) {
-                        clientePfDAO.transfere(contaOrigem, valor);
+            if (tipoContaOrigem.equals("PF")) {
+                if (clientePfDAO.consultaTransferencia(contaOrigem) >= valor) {
+                    clientePfDAO.transfere(contaOrigem, valor);
 
-                        if (tipoContaDestino.equals("PJ")) {
-                            clientePjDAO.recebe(contaDestino, valor);
-                            System.out.println("Transferência realizada com sucesso!");
-                        } else {
-                            clientePfDAO.recebe(contaDestino, valor);
-                            System.out.println("Transferência realizada com sucesso!");
-                        }
+                    if (tipoContaDestino.equals("PJ")) {
+                        clientePjDAO.recebe(contaDestino, valor);
+                        System.out.println("Transferência realizada com sucesso!");
                     } else {
-                        System.out.println("Saldo insuficiente!");
+                        clientePfDAO.recebe(contaDestino, valor);
+                        System.out.println("Transferência realizada com sucesso!");
                     }
                 } else {
-                    if (clientePjDAO.consultaTransferencia(contaOrigem) >= valor) {
-                        clientePjDAO.transfere(contaOrigem, valor);
-
-                        if (tipoContaDestino.equals("PJ")) {
-                            clientePjDAO.recebe(contaDestino, valor);
-                            System.out.println("Transferência realizada com sucesso!");
-                        } else {
-                            clientePfDAO.recebe(contaDestino, valor);
-                            System.out.println("Transferência realizada com sucesso!");
-                        }
-                    } else {
-                        System.out.println("Saldo insuficiente!");
-                    }
+                    System.out.println("Saldo insuficiente!");
                 }
+            } else {
+                if (clientePjDAO.consultaTransferencia(contaOrigem) >= valor) {
+                    clientePjDAO.transfere(contaOrigem, valor);
+
+                    if (tipoContaDestino.equals("PJ")) {
+                        clientePjDAO.recebe(contaDestino, valor);
+                        System.out.println("Transferência realizada com sucesso!");
+                    } else {
+                        clientePfDAO.recebe(contaDestino, valor);
+                        System.out.println("Transferência realizada com sucesso!");
+                    }
+                } else {
+                    System.out.println("Saldo insuficiente!");
+                }
+            }
         } else {
             throw new ContaNaoEncontradaException("Conta não encontrada!");
         }

@@ -8,7 +8,8 @@ import java.sql.ResultSet;
 public class ClientePfDAO extends ClienteDAO {
     private final ClienteDAO clienteDAO = new ClienteDAO();
 
-    public ClientePfDAO() { }
+    public ClientePfDAO() {
+    }
 
     public boolean cadastraCliente(ClientePfPOJO cliente) {
         String sql = "INSERT INTO public.cliente_pf (" +

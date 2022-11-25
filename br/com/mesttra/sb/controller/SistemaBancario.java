@@ -28,7 +28,8 @@ public class SistemaBancario {
                     case 4 -> gerente.ajustaLimite(in);
                     case 5 -> gerente.transfere(in);
                     case 6 -> gerente.adicionaSaldo(in);
-                    /*case 7 -> gerente.relatorioClientes(true);*/
+                    /*case 7 -> gerente.relatorioClientes(true);
+                    case 8 -> gerente.emprestimo() */
                     case 9 -> System.out.println("Obrigado por utilizar o sistema, até logo!");
                     default -> System.out.println("Opção inválida, por favor tente novamente!");
                 }
@@ -47,9 +48,8 @@ public class SistemaBancario {
         System.out.println("5. Realizar transferência");
         System.out.println("6. Adicionar saldo");
         System.out.println("7. Relatório de clientes");
-        System.out.println("8. Clientes removidos");
-        System.out.println("9. Empréstimos");
-        System.out.println("10. Sair");
+        System.out.println("8. Empréstimos");
+        System.out.println("9. Sair");
         System.out.println("# ============================ #");
         System.out.print("Insira uma opção: ");
         return Integer.parseInt(in.nextLine());

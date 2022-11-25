@@ -8,7 +8,8 @@ import java.sql.ResultSet;
 public class ClientePjDAO extends ClienteDAO {
     private final ClienteDAO clienteDAO = new ClienteDAO();
 
-    public ClientePjDAO() { }
+    public ClientePjDAO() {
+    }
 
     public boolean cadastraCliente(ClientePjPOJO cliente) {
         String sql = "INSERT INTO public.cliente_pj(" +
@@ -53,7 +54,7 @@ public class ClientePjDAO extends ClienteDAO {
         return clienteDAO.executaUpdate(sql, conta, valor);
     }
 
-    public ClientePjPOJO consultaCliente (String conta) {
+    public ClientePjPOJO consultaCliente(String conta) {
         String sql = "SELECT * FROM cliente_pj WHERE conta = ?";
         try (PreparedStatement stmt = clienteDAO.getConn().prepareStatement(sql)) {
             stmt.setString(1, conta);
@@ -87,13 +88,13 @@ public class ClientePjDAO extends ClienteDAO {
         return saldo + limite;
     }
 
-    public boolean transfere (String contaOrigem, double valor) {
+    public boolean transfere(String contaOrigem, double valor) {
         String sql = "UPDATE cliente_pj SET saldo = saldo - ? WHERE conta = ?";
 
         return clienteDAO.executaUpdate(sql, contaOrigem, valor);
     }
 
-    public boolean recebe (String contaDestino, double valor) {
+    public boolean recebe(String contaDestino, double valor) {
         String sql = "UPDATE cliente_pj SET saldo = saldo + ? WHERE conta = ?";
 
         return clienteDAO.executaUpdate(sql, contaDestino, valor);
