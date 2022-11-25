@@ -5,8 +5,8 @@ public class ClientePfPOJO extends ClientePOJO {
     private final String nome;
     private final int idade;
 
-    public ClientePfPOJO(String conta, String agencia, String telefone, double saldo, double limite, boolean contaAtiva, String cpf, String nome, short idade) {
-        super(conta, agencia, telefone, saldo, limite, contaAtiva);
+    public ClientePfPOJO(String conta, String agencia, String telefone, double saldo, double limite, String cpf, String nome, int idade) {
+        super(conta, agencia, telefone, saldo, limite);
         this.cpf = cpf;
         this.nome = nome;
         this.idade = idade;

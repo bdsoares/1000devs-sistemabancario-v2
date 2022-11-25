@@ -3,6 +3,7 @@ package br.com.mesttra.cidades.controller;
 import br.com.mesttra.cidades.dao.ClienteDAO;
 import br.com.mesttra.cidades.dao.ClientePfDAO;
 import br.com.mesttra.cidades.dao.ClientePjDAO;
+import br.com.mesttra.cidades.pojo.ClientePOJO;
 import br.com.mesttra.cidades.pojo.ClientePfPOJO;
 import br.com.mesttra.cidades.pojo.ClientePjPOJO;
 
@@ -40,7 +41,7 @@ public class Gerente {
             System.out.print("Idade: ");
             short idade = Short.parseShort(in.nextLine());
 
-            ClientePfPOJO novoCliente = new ClientePfPOJO(conta, agencia, telefone, saldo, limite, true, cpf, nome, idade);
+            ClientePfPOJO novoCliente = new ClientePfPOJO(conta, agencia, telefone, saldo, limite, cpf, nome, idade);
 
             if(clientePfDAO.cadastraCliente(novoCliente))
                 System.out.println("Cliente cadastrado com sucesso!");
@@ -52,7 +53,7 @@ public class Gerente {
             System.out.print("Razão fantasia: ");
             String nomeFantasia = in.nextLine();
 
-            ClientePjPOJO novoCliente = new ClientePjPOJO(conta, agencia, telefone, saldo, limite, true, cnpj, razaoSocial, nomeFantasia);
+            ClientePjPOJO novoCliente = new ClientePjPOJO(conta, agencia, telefone, saldo, limite, cnpj, razaoSocial, nomeFantasia);
 
             if(clientePjDAO.cadastraCliente(novoCliente))
                 System.out.println("Cliente cadastrado com sucesso!");
@@ -104,5 +105,13 @@ public class Gerente {
     private String solicitaConta(Scanner in) {
         System.out.print("Informe o número da conta: ");
         return in.nextLine();
+    }
+
+    public void consultaCliente(Scanner in) {
+        String conta = solicitaConta(in);
+
+        ClientePOJO cliente = clienteDAO.consultaCliente(conta);
+        cliente.exibirConta();
+
     }
 }

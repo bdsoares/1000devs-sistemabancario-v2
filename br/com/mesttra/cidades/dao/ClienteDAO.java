@@ -2,6 +2,7 @@ package br.com.mesttra.cidades.dao;
 
 import br.com.mesttra.cidades.connectionfactory.ConnectionFactory;
 import br.com.mesttra.cidades.exceptions.ContaNaoEncontradaException;
+import br.com.mesttra.cidades.pojo.ClientePOJO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -44,7 +45,7 @@ public class ClienteDAO {
         if (rs != null && rs) return "PF";
         if (rs2 != null && rs2) return "PJ";
 
-        throw new ContaNaoEncontradaException("Conta não encontrada!");
+        return null;
     }
 
     public boolean executaUpdate(String sql, String conta, double valor) {
@@ -74,5 +75,33 @@ public class ClienteDAO {
             System.out.println(ex.getMessage());
         }
         return null;
+    }
+
+    public ClientePOJO consultaCliente(String conta) {
+       String contaTipo = verificaCliente(conta);
+       if (contaTipo.equals("PF")) {
+           ClientePfDAO clientePfDAO = new ClientePfDAO();
+           ClientePOJO cliente = clientePfDAO.consultaCliente(conta);
+           return cliente;
+       } else if (contaTipo.equals("PJ")) {
+           ClientePjDAO clientePjDAO = new ClientePjDAO();
+           ClientePOJO cliente = clientePjDAO.consultaCliente(conta);
+           return cliente;
+       } else {
+           throw new ContaNaoEncontradaException("Conta não encontrada!");
+       }
+    }
+
+    public boolean transfereValor(String contaOrigem, String contaDestino, double valor) {
+        String contaTipo = verificaCliente(contaOrigem);
+        if (contaTipo.equals("PF")) {
+            ClientePfDAO clientePfDAO = new ClientePfDAO();
+            return clientePfDAO.transfereValor(contaOrigem, contaDestino, valor);
+        } else if (contaTipo.equals("PJ")) {
+            ClientePjDAO clientePjDAO = new ClientePjDAO();
+            return clientePjDAO.transfereValor(contaOrigem, contaDestino, valor);
+        } else {
+            throw new ContaNaoEncontradaException("Conta não encontrada!");
+        }
     }
 }

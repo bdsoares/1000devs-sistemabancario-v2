@@ -1,20 +1,18 @@
 package br.com.mesttra.cidades.pojo;
 
-public abstract class ClientePOJO implements Conta {
+public class ClientePOJO implements Conta {
     private final String conta;
     private final String agencia;
     private final String telefone;
     private double saldo;
     private double limite;
-    private boolean contaAtiva;
 
-    public ClientePOJO(String conta, String agencia, String telefone, double saldo, double limite, boolean contaAtiva) {
+    public ClientePOJO(String conta, String agencia, String telefone, double saldo, double limite) {
         this.conta = conta;
         this.agencia = agencia;
         this.telefone = telefone;
         this.saldo = saldo;
         this.limite = limite;
-        this.contaAtiva = contaAtiva;
     }
 
     @Override
@@ -54,11 +52,5 @@ public abstract class ClientePOJO implements Conta {
         this.limite = limite;
     }
 
-    public boolean isContaAtiva() {
-        return contaAtiva;
-    }
 
-    public void setContaAtiva(boolean contaAtiva) {
-        this.contaAtiva = contaAtiva;
-    }
 }

@@ -1,8 +1,10 @@
 package br.com.mesttra.cidades.dao;
 
+import br.com.mesttra.cidades.pojo.ClientePfPOJO;
 import br.com.mesttra.cidades.pojo.ClientePjPOJO;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 public class ClientePjDAO extends ClienteDAO {
     private final ClienteDAO clienteDAO = new ClienteDAO();
@@ -50,5 +52,29 @@ public class ClientePjDAO extends ClienteDAO {
         String sql = "UPDATE cliente_pj SET saldo = saldo + ? WHERE conta = ?";
 
         return clienteDAO.executaUpdate(sql, conta, valor);
+    }
+
+    public ClientePjPOJO consultaCliente (String conta) {
+        String sql = "SELECT * FROM cliente_pj WHERE conta = ?";
+        try (PreparedStatement stmt = clienteDAO.getConn().prepareStatement(sql)) {
+            stmt.setString(1, conta);
+
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            return new ClientePjPOJO(
+                    rs.getString("conta"),
+                    rs.getString("agencia"),
+                    rs.getString("telefone"),
+                    rs.getDouble("saldo"),
+                    rs.getDouble("limite"),
+                    rs.getString("cnpj"),
+                    rs.getString("razao_social"),
+                    rs.getString("nome_fantasia")
+            );
+        } catch (Exception ex) {
+            System.out.println("Erro ao processar solicitação!");
+            System.out.println(ex.getMessage());
+        }
+        return null;
     }
 }

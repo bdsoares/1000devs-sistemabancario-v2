@@ -24,31 +24,18 @@ public class SistemaBancario {
                             System.out.println("Opção inválida!");
                     }
                     case 2 -> gerente.removeCliente(in);
-                    //case 3 -> gerente.consultaCliente(in);
+                    case 3 -> gerente.consultaCliente(in);
                     case 4 -> gerente.ajustaLimite(in);
                     //case 5 -> gerente.tranfere(in);
                     case 6 -> gerente.adicionaSaldo(in);
-                    /*case 7 -> gerente.relatorioClientes(true);
-                    case 8 -> {
-                        do {
-                            opcao = mostraMenuRemovidos(in);
-
-                            switch (opcao) {
-                                case 1 -> gerente.relatorioClientes(false);
-                                case 2 -> gerente.consultaCliente(in);
-                                case 3 -> gerente.restauraCliente(in);
-                                case 4 -> System.out.println();
-                                default -> System.out.println("Opção inválida, por favor tente novamente!");
-                            }
-                        } while (opcao != 4);
-                    }*/
-                    case 10 -> System.out.println("Obrigado por utilizar o sistema, até logo!");
+                    /*case 7 -> gerente.relatorioClientes(true);*/
+                    case 9 -> System.out.println("Obrigado por utilizar o sistema, até logo!");
                     default -> System.out.println("Opção inválida, por favor tente novamente!");
                 }
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
             }
-        } while (opcao != 10);
+        } while (opcao != 9);
     }
 
     private static int mostraMenu(Scanner in) {
