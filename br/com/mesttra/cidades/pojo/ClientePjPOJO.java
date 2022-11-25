@@ -30,4 +30,6 @@ public class ClientePjPOJO extends ClientePOJO {
     public String getNomeFantasia() {
         return nomeFantasia;
     }
+    
+    //teste
 }
