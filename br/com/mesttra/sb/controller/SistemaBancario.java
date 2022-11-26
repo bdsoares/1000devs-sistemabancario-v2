@@ -30,13 +30,13 @@ public class SistemaBancario {
                     case 6 -> gerente.adicionaSaldo(in);
                     /*case 7 -> gerente.relatorioClientes(true);
                     case 8 -> gerente.emprestimo() */
-                    case 9 -> System.out.println("Obrigado por utilizar o sistema, até logo!");
+                    case 0 -> System.out.println("Obrigado por utilizar o sistema, até logo!");
                     default -> System.out.println("Opção inválida, por favor tente novamente!");
                 }
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
             }
-        } while (opcao != 9);
+        } while (opcao != 0);
     }
 
     private static int mostraMenu(Scanner in) {
@@ -49,7 +49,7 @@ public class SistemaBancario {
         System.out.println("6. Adicionar saldo");
         System.out.println("7. Relatório de clientes");
         System.out.println("8. Empréstimos");
-        System.out.println("9. Sair");
+        System.out.println("0. Sair");
         System.out.println("# ============================ #");
         System.out.print("Insira uma opção: ");
         return Integer.parseInt(in.nextLine());
