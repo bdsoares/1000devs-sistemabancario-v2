@@ -8,6 +8,7 @@ import br.com.mesttra.sb.pojo.ClientePOJO;
 import br.com.mesttra.sb.pojo.ClientePfPOJO;
 import br.com.mesttra.sb.pojo.ClientePjPOJO;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Gerente {
@@ -163,5 +164,18 @@ public class Gerente {
     private String solicitaConta(Scanner in) {
         System.out.print("Informe o número da conta: ");
         return in.nextLine();
+    }
+
+    public void relatorioClientes() {
+        System.out.println("\n# ===== Clientes PF ===== #");
+        ArrayList<ClientePfPOJO> clientesPf = clientePfDAO.listaCliente();
+        for (ClientePfPOJO cliente : clientesPf)
+            System.out.println("\t" + cliente.getNome());
+
+        System.out.println("# ===== Clientes PJ ===== #");
+        ArrayList<ClientePjPOJO> clientesPj = clientePjDAO.listaCliente();
+        for (ClientePjPOJO cliente : clientesPj)
+            System.out.println("\t" + cliente.getNomeFantasia());
+        System.out.println("# ======================= #\n");
     }
 }

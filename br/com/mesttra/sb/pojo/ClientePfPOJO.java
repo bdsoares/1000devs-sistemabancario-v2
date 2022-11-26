@@ -13,10 +13,12 @@ public class ClientePfPOJO extends ClientePOJO {
     }
 
     public void exibirConta() {
+        System.out.println("# ===== Cliente PF ===== #");
         super.exibirConta();
         System.out.println("CPF: " + this.getCpf());
         System.out.println("Nome: " + this.getNome());
         System.out.println("Idade: " + this.getIdade());
+        System.out.println("# ====================== #");
     }
 
     public String getCpf() {

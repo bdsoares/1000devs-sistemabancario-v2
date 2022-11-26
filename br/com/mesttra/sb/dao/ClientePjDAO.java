@@ -4,6 +4,7 @@ import br.com.mesttra.sb.pojo.ClientePjPOJO;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class ClientePjDAO extends ClienteDAO {
     private final ClienteDAO clienteDAO = new ClienteDAO();
@@ -98,5 +99,32 @@ public class ClientePjDAO extends ClienteDAO {
         String sql = "UPDATE cliente_pj SET saldo = saldo + ? WHERE conta = ?";
 
         return clienteDAO.executaUpdate(sql, contaDestino, valor);
+    }
+
+    public ArrayList<ClientePjPOJO> listaCliente() {
+        String sql = "SELECT * FROM cliente_pj";
+        ArrayList<ClientePjPOJO> lista = new ArrayList<>();
+
+        try (PreparedStatement stmt = clienteDAO.getConn().prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                lista.add(new ClientePjPOJO(
+                        rs.getString("conta"),
+                        rs.getString("agencia"),
+                        rs.getString("telefone"),
+                        rs.getDouble("saldo"),
+                        rs.getDouble("limite"),
+                        rs.getString("cnpj"),
+                        rs.getString("razao_social"),
+                        rs.getString("nome_fantasia")
+                ));
+            }
+        } catch (Exception ex) {
+            System.out.println("Erro ao processar solicitação!");
+            System.out.println(ex.getMessage());
+        }
+
+        return lista;
     }
 }

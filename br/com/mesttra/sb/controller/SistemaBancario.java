@@ -13,6 +13,7 @@ public class SistemaBancario {
                 opcao = mostraMenu(in);
 
                 switch (opcao) {
+                    case 0 -> System.out.println("Obrigado por utilizar o sistema, até logo!");
                     case 1 -> {
                         opcao = mostraTipoContas(in);
 
@@ -28,9 +29,8 @@ public class SistemaBancario {
                     case 4 -> gerente.ajustaLimite(in);
                     case 5 -> gerente.transfere(in);
                     case 6 -> gerente.adicionaSaldo(in);
-                    /*case 7 -> gerente.relatorioClientes(true);
-                    case 8 -> gerente.emprestimo() */
-                    case 0 -> System.out.println("Obrigado por utilizar o sistema, até logo!");
+                    case 7 -> gerente.relatorioClientes();
+                    //case 8 -> gerente.emprestimo()
                     default -> System.out.println("Opção inválida, por favor tente novamente!");
                 }
             } catch (Exception ex) {
