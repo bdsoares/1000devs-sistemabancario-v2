@@ -43,7 +43,7 @@ public class Gerente {
             System.out.print("Idade: ");
             short idade = Short.parseShort(in.nextLine());
 
-            ClientePfPOJO novoCliente = new ClientePfPOJO(conta, agencia, telefone, saldo, limite, cpf, nome, idade);
+            ClientePfPOJO novoCliente = new ClientePfPOJO(conta, agencia, telefone, saldo, limite, true, cpf, nome, idade);
 
             if (clientePfDAO.cadastraCliente(novoCliente))
                 System.out.println("Cliente cadastrado com sucesso!");
@@ -55,7 +55,7 @@ public class Gerente {
             System.out.print("Razão fantasia: ");
             String nomeFantasia = in.nextLine();
 
-            ClientePjPOJO novoCliente = new ClientePjPOJO(conta, agencia, telefone, saldo, limite, cnpj, razaoSocial, nomeFantasia);
+            ClientePjPOJO novoCliente = new ClientePjPOJO(conta, agencia, telefone, saldo, limite, true, cnpj, razaoSocial, nomeFantasia);
 
             if (clientePjDAO.cadastraCliente(novoCliente))
                 System.out.println("Cliente cadastrado com sucesso!");
@@ -66,9 +66,9 @@ public class Gerente {
         String conta = solicitaConta(in);
         String tipoConta = clienteDAO.verificaCliente(conta);
 
-        if (tipoConta.equals("PF") && clientePfDAO.removeCliente(conta))         // Pessoa Fisica.
+        if (tipoConta.equals("PF") && clientePfDAO.statusCliente(conta, false))         // Pessoa Fisica.
             System.out.println("Conta PF Removida com Sucesso!");
-        else if (tipoConta.equals("PJ") && clientePjDAO.removeCliente(conta))    // Pessoa Juridica.
+        else if (tipoConta.equals("PJ") && clientePjDAO.statusCliente(conta, false))    // Pessoa Juridica.
             System.out.println("Conta PJ Removida com Sucesso!");
         else
             System.out.println("Conta não encontrada!");
@@ -104,10 +104,10 @@ public class Gerente {
             System.out.println("Conta não encontrada!");
     }
 
-    public void consultaCliente(Scanner in) {
+    public void consultaCliente(Scanner in, boolean booleano) {
         String conta = solicitaConta(in);
 
-        ClientePOJO cliente = clienteDAO.consultaCliente(conta);
+        ClientePOJO cliente = clienteDAO.consultaCliente(conta, booleano);
         cliente.exibirConta();
     }
 
@@ -161,21 +161,35 @@ public class Gerente {
         }
     }
 
-    private String solicitaConta(Scanner in) {
-        System.out.print("Informe o número da conta: ");
-        return in.nextLine();
-    }
-
-    public void relatorioClientes() {
+    public void relatorioClientes(boolean status) {
         System.out.println("\n# ===== Clientes PF ===== #");
-        ArrayList<ClientePfPOJO> clientesPf = clientePfDAO.listaCliente();
+        ArrayList<ClientePfPOJO> clientesPf = clientePfDAO.listaCliente(status);
         for (ClientePfPOJO cliente : clientesPf)
             System.out.println("\t" + cliente.getNome());
 
         System.out.println("# ===== Clientes PJ ===== #");
-        ArrayList<ClientePjPOJO> clientesPj = clientePjDAO.listaCliente();
+        ArrayList<ClientePjPOJO> clientesPj = clientePjDAO.listaCliente(status);
         for (ClientePjPOJO cliente : clientesPj)
             System.out.println("\t" + cliente.getNomeFantasia());
         System.out.println("# ======================= #\n");
+    }
+
+    public void restauraCliente(Scanner in) {
+        String conta = solicitaConta(in);
+        String tipoConta = clienteDAO.verificaCliente(conta);
+
+        if (tipoConta == null)
+            throw new ContaNaoEncontradaException("Conta não encontrada!");
+        else if(tipoConta.equals("PF") && clientePfDAO.statusCliente(conta, true))
+            System.out.println("Conta PF Restaurada com Sucesso!");
+        else if(tipoConta.equals("PJ") && clientePjDAO.statusCliente(conta, true))
+            System.out.println("Conta PJ Restaurada com Sucesso!");
+        else
+            System.out.println("Conta não encontrada!");
+    }
+
+    private String solicitaConta(Scanner in) {
+        System.out.print("Informe o número da conta: ");
+        return in.nextLine();
     }
 }

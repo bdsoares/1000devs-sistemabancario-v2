@@ -25,12 +25,24 @@ public class SistemaBancario {
                             System.out.println("Opção inválida!");
                     }
                     case 2 -> gerente.removeCliente(in);
-                    case 3 -> gerente.consultaCliente(in);
+                    case 3 -> gerente.consultaCliente(in, true);
                     case 4 -> gerente.ajustaLimite(in);
                     case 5 -> gerente.transfere(in);
                     case 6 -> gerente.adicionaSaldo(in);
-                    case 7 -> gerente.relatorioClientes();
-                    //case 8 -> gerente.emprestimo()
+                    case 7 -> gerente.relatorioClientes(true);
+                    case 8 -> {
+                        do {
+                            opcao = mostraMenuRemovidos(in);
+
+                            switch (opcao) {
+                                case 1 -> gerente.relatorioClientes(false);
+                                case 2 -> gerente.consultaCliente(in, false);
+                                case 3 -> gerente.restauraCliente(in);
+                                case 4 -> System.out.println();
+                                default -> System.out.println("Opção inválida, por favor tente novamente!");
+                            }
+                        } while (opcao != 4);
+                    }
                     default -> System.out.println("Opção inválida, por favor tente novamente!");
                 }
             } catch (Exception ex) {
@@ -48,7 +60,7 @@ public class SistemaBancario {
         System.out.println("5. Realizar transferência");
         System.out.println("6. Adicionar saldo");
         System.out.println("7. Relatório de clientes");
-        System.out.println("8. Empréstimos");
+        System.out.println("8. Clientes Removidos");
         System.out.println("0. Sair");
         System.out.println("# ============================ #");
         System.out.print("Insira uma opção: ");
@@ -60,6 +72,17 @@ public class SistemaBancario {
         System.out.println("1. Pessoa Física");
         System.out.println("2. Pessoa Jurídica");
         System.out.println("3. Cancelar");
+        System.out.println("# ============================ #");
+        System.out.print("Insira uma opção: ");
+        return Integer.parseInt(in.nextLine());
+    }
+
+    private static int mostraMenuRemovidos(Scanner in) {
+        System.out.println("# ===== Contas Removidas ===== #");
+        System.out.println("1. Relatório de contas removidas");
+        System.out.println("2. Consultar conta removida");
+        System.out.println("3. Restaurar conta");
+        System.out.println("4. Voltar");
         System.out.println("# ============================ #");
         System.out.print("Insira uma opção: ");
         return Integer.parseInt(in.nextLine());

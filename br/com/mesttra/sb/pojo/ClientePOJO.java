@@ -6,13 +6,15 @@ public class ClientePOJO implements Conta {
     private final String telefone;
     private final double saldo;
     private final double limite;
+    private final boolean contaAtiva;
 
-    public ClientePOJO(String conta, String agencia, String telefone, double saldo, double limite) {
+    public ClientePOJO(String conta, String agencia, String telefone, double saldo, double limite, boolean contaAtiva) {
         this.conta = conta;
         this.agencia = agencia;
         this.telefone = telefone;
         this.saldo = saldo;
         this.limite = limite;
+        this.contaAtiva = contaAtiva;
     }
 
     @Override
@@ -42,5 +44,9 @@ public class ClientePOJO implements Conta {
 
     public double getLimite() {
         return limite;
+    }
+
+    public boolean isContaAtiva() {
+        return contaAtiva;
     }
 }

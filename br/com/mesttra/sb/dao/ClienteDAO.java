@@ -48,9 +48,24 @@ public class ClienteDAO {
         return null;
     }
 
-    public boolean executaUpdate(String sql, String conta, double valor) {
+    public boolean executaUpdateDouble(String sql, String conta, double valor) {
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setDouble(1, valor);
+            stmt.setString(2, conta);
+
+            stmt.execute();
+            return true;
+        } catch (Exception ex) {
+            System.out.println("Erro ao processar solicitação!");
+            System.out.println(ex.getMessage());
+        }
+
+        return false;
+    }
+
+    public boolean executaUpdateBoolean(String sql, String conta, boolean booleano) {
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setBoolean(1, booleano);
             stmt.setString(2, conta);
 
             stmt.execute();
@@ -77,17 +92,17 @@ public class ClienteDAO {
         return null;
     }
 
-    public ClientePOJO consultaCliente(String conta) {
+    public ClientePOJO consultaCliente(String conta, boolean booleano) {
         String contaTipo = verificaCliente(conta);
 
         if (contaTipo == null) {
             throw new ContaNaoEncontradaException("Conta não encontrada!");
         } else if (contaTipo.equals("PF")) {
             ClientePfDAO clientePfDAO = new ClientePfDAO();
-            return clientePfDAO.consultaCliente(conta);
+            return clientePfDAO.consultaCliente(conta, booleano);
         } else if (contaTipo.equals("PJ")) {
             ClientePjDAO clientePjDAO = new ClientePjDAO();
-            return clientePjDAO.consultaCliente(conta);
+            return clientePjDAO.consultaCliente(conta, booleano);
         }
         return null;
     }

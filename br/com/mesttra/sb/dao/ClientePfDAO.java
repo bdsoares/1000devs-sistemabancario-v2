@@ -14,8 +14,8 @@ public class ClientePfDAO extends ClienteDAO {
 
     public boolean cadastraCliente(ClientePfPOJO cliente) {
         String sql = "INSERT INTO public.cliente_pf (" +
-                "conta, agencia, telefone, saldo, limite, cpf, nome, idade)" +
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                "conta, agencia, telefone, saldo, limite, conta_ativa, cpf, nome, idade)" +
+                " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement stmt = super.getConn().prepareStatement(sql)) {
             stmt.setString(1, cliente.getConta());
@@ -23,9 +23,10 @@ public class ClientePfDAO extends ClienteDAO {
             stmt.setString(3, cliente.getTelefone());
             stmt.setDouble(4, cliente.getSaldo());
             stmt.setDouble(5, cliente.getLimite());
-            stmt.setString(6, cliente.getCpf());
-            stmt.setString(7, cliente.getNome());
-            stmt.setInt(8, cliente.getIdade());
+            stmt.setBoolean(6, cliente.isContaAtiva());
+            stmt.setString(7, cliente.getCpf());
+            stmt.setString(8, cliente.getNome());
+            stmt.setInt(9, cliente.getIdade());
 
             stmt.execute();
             return true;
@@ -37,28 +38,29 @@ public class ClientePfDAO extends ClienteDAO {
         return false;
     }
 
-    public boolean removeCliente(String conta) {
-        String sql = "DELETE FROM cliente_pf WHERE conta = ?";
+    public Boolean statusCliente(String conta, boolean status) {
+        String sql = "UPDATE cliente_pf SET conta_ativa = ? WHERE conta = ?";
 
-        return clienteDAO.removeCliente(sql, conta);
+        return clienteDAO.executaUpdateBoolean(sql, conta, status);
     }
 
     public boolean ajustaLimite(String conta, double novoLimite) {
         String sql = "UPDATE cliente_pf SET limite = ? WHERE conta = ?";
 
-        return clienteDAO.executaUpdate(sql, conta, novoLimite);
+        return clienteDAO.executaUpdateDouble(sql, conta, novoLimite);
     }
 
     public boolean adicionaSaldo(String conta, double valor) {
         String sql = "UPDATE cliente_pf SET saldo = saldo + ? WHERE conta = ?";
 
-        return clienteDAO.executaUpdate(sql, conta, valor);
+        return clienteDAO.executaUpdateDouble(sql, conta, valor);
     }
 
-    public ClientePfPOJO consultaCliente(String conta) {
-        String sql = "SELECT * FROM cliente_pf WHERE conta = ?";
+    public ClientePfPOJO consultaCliente(String conta, boolean booleano) {
+        String sql = "SELECT * FROM cliente_pf WHERE conta = ? AND conta_ativa = ?";
         try (PreparedStatement stmt = clienteDAO.getConn().prepareStatement(sql)) {
             stmt.setString(1, conta);
+            stmt.setBoolean(2, booleano);
 
             ResultSet rs = stmt.executeQuery();
             rs.next();
@@ -68,6 +70,7 @@ public class ClientePfDAO extends ClienteDAO {
                     rs.getString("telefone"),
                     rs.getDouble("saldo"),
                     rs.getDouble("limite"),
+                    rs.getBoolean("conta_ativa"),
                     rs.getString("cpf"),
                     rs.getString("nome"),
                     rs.getInt("idade")
@@ -92,20 +95,21 @@ public class ClientePfDAO extends ClienteDAO {
     public boolean transfere(String contaOrigem, double valor) {
         String sql = "UPDATE cliente_pf SET saldo = saldo - ? WHERE conta = ?";
 
-        return clienteDAO.executaUpdate(sql, contaOrigem, valor);
+        return clienteDAO.executaUpdateDouble(sql, contaOrigem, valor);
     }
 
     public boolean recebe(String contaDestino, double valor) {
         String sql = "UPDATE cliente_pf SET saldo = saldo + ? WHERE conta = ?";
 
-        return clienteDAO.executaUpdate(sql, contaDestino, valor);
+        return clienteDAO.executaUpdateDouble(sql, contaDestino, valor);
     }
 
-    public ArrayList<ClientePfPOJO> listaCliente() {
-        String sql = "SELECT * FROM cliente_pf";
+    public ArrayList<ClientePfPOJO> listaCliente(boolean status) {
+        String sql = "SELECT * FROM cliente_pf WHERE conta_ativa = ?";
         ArrayList<ClientePfPOJO> lista = new ArrayList<>();
 
         try (PreparedStatement stmt = clienteDAO.getConn().prepareStatement(sql)) {
+            stmt.setBoolean(1, status);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -115,6 +119,7 @@ public class ClientePfDAO extends ClienteDAO {
                         rs.getString("telefone"),
                         rs.getDouble("saldo"),
                         rs.getDouble("limite"),
+                        rs.getBoolean("conta_ativa"),
                         rs.getString("cpf"),
                         rs.getString("nome"),
                         rs.getInt("idade")
@@ -126,5 +131,11 @@ public class ClientePfDAO extends ClienteDAO {
         }
 
         return lista;
+    }
+
+    public Boolean restauraCliente(String conta) {
+        String sql = "UPDATE cliente_pf SET conta_ativa = true WHERE conta = ?";
+
+        return clienteDAO.executaUpdateBoolean(sql, conta, true);
     }
 }
